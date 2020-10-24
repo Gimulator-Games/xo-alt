@@ -8,7 +8,7 @@ logger = logging.getLogger('Gimulator Client')
 
 class GimulatorClient(APIStub):
     def __init__(self):
-        self.client_token = client_token = environ['TOKEN']
+        self.client_token = client_token = environ['GIMULATOR_TOKEN']
         logger.debug("Client token is " + client_token)
         self.metadata = (('token', client_token),)
 
@@ -18,6 +18,9 @@ class GimulatorClient(APIStub):
 
     def Get(self, key):
         return super().Get(key, metadata=self.metadata)
+
+    def GetAll(self, key):
+        return super().GetAll(key, metadata=self.metadata)
 
     def Put(self, message):
         return super().Put(message, metadata=self.metadata)

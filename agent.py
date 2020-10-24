@@ -12,7 +12,7 @@ from client import GimulatorClient
 
 LOGLEVEL = environ.get('LOGLEVEL', 'INFO').upper()
 logging.basicConfig(level=LOGLEVEL)
-logger = logging.getLogger('Gimulator SDK')
+logger = logging.getLogger('Gimulator Agent SDK')
 
 agent_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
 

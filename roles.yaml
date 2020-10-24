@@ -1,0 +1,37 @@
+director:
+- key:
+    type: "world"
+    name: "judge"
+    namespace: "XO-namespace"
+  methods:
+  - get
+  - put
+  - watch
+- key:
+    type: "action"
+  methods:
+    - watch
+- key:
+    type: "register"
+    namespace: "XO-namespace"
+  methods:
+    - get-all
+
+actors:
+  agent:
+  - key:
+      type: "action"
+      namespace: "XO-namespace"
+    methods:
+      - put
+  - key:
+      type: "register"
+      namespace: "XO-namespace"
+    methods:
+      - put
+  - key:
+      type: "world"
+      name: "judge"
+      namespace: "XO-namespace"
+    methods:
+      - get
