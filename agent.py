@@ -19,13 +19,13 @@ agent_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
 
 class Agent:
     def react(self, world: dict) -> list:
-        action = [None, None]
-
         # TODO do something with world and populate action
-        action[0] = int(input())
-        action[1] = int(input())
+        for i, row in enumerate(world['world']):
+            for j, cell in enumerate(row):
+                if cell is None:
+                    return [i, j]
 
-        return action
+        return []
 
 
 if __name__ == '__main__':
@@ -35,14 +35,14 @@ if __name__ == '__main__':
     client = GimulatorClient()
 
     logger.debug("Registering agent...")
-    client.put(
+    client.Put(
         Message(Content='agent-' + agent_name, Key=Key(Type='register', Name='agent-' + agent_name, Namespace='XO-namespace')))
 
     while True:
         sleep(1)
         logger.debug("Requesting world...")
         try:
-            response = client.get(Key(Type='world', Name='judge', Namespace='XO-namespace'))
+            response = client.Get(Key(Type='world', Name='judge', Namespace='XO-namespace'))
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.NOT_FOUND:
                 continue
@@ -53,4 +53,4 @@ if __name__ == '__main__':
         action = dumps(agent.react(loads(response.Content)))
         logger.debug("Action is ready: " + action)
 
-        client.put(Message(Content=action, Key=Key(Type='action', Name='agent-' + agent_name, Namespace='XO-namespace')))
+        client.Put(Message(Content=action, Key=Key(Type='action', Name='agent-' + agent_name, Namespace='XO-namespace')))
