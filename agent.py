@@ -35,13 +35,14 @@ if __name__ == '__main__':
     client = GimulatorClient()
 
     logger.debug("Registering agent...")
-    client.Put(Message(Content='agent-' + agent_name, Key=Key(Type='register', Name='agent-' + agent_name, Namespace='XO-namespace')))
+    client.put(
+        Message(Content='agent-' + agent_name, Key=Key(Type='register', Name='agent-' + agent_name, Namespace='XO-namespace')))
 
     while True:
         sleep(1)
         logger.debug("Requesting world...")
         try:
-            response = client.Get(Key(Type='world', Name='judge', Namespace='XO-namespace'))
+            response = client.get(Key(Type='world', Name='judge', Namespace='XO-namespace'))
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.NOT_FOUND:
                 continue
@@ -52,4 +53,4 @@ if __name__ == '__main__':
         action = dumps(agent.react(loads(response.Content)))
         logger.debug("Action is ready: " + action)
 
-        client.Put(Message(Content=action, Key=Key(Type='action', Name='agent-' + agent_name, Namespace='XO-namespace')))
+        client.put(Message(Content=action, Key=Key(Type='action', Name='agent-' + agent_name, Namespace='XO-namespace')))

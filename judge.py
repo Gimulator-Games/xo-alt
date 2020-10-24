@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     logger.debug("Waiting for players to join...")
     while True:
-        registers = list(client.GetAll(Key(Type='register', Namespace='XO-namespace')))
+        registers = list(client.get_all(Key(Type='register', Namespace='XO-namespace')))
         if len(registers) == 2:
             for player in registers:
                 players.append(player.Content)
@@ -71,15 +71,15 @@ if __name__ == '__main__':
         sleep(3)
 
     logger.debug("Creating initial world...")
-    client.Put(Message(Content=dumps({
+    client.put(Message(Content=dumps({
         'world': [[None] * 3] * 3,
         'turn': players[0]
     }), Key=Key(Type='world', Name='judge', Namespace='XO-namespace')))
 
-    for action in client.Watch(Key(Type='action')):
+    for action in client.watch(Key(Type='action')):
         logger.debug("Action received: " + action.Content)
 
-        world = loads(client.Get(Key(Type='world', Name='judge', Namespace='XO-namespace')).Content)
+        world = loads(client.get(Key(Type='world', Name='judge', Namespace='XO-namespace')).Content)
 
         try:
             world = evolve(world, action.Key.Name, loads(action.Content))
@@ -90,6 +90,6 @@ if __name__ == '__main__':
 
         winner = check_game_status(world)
         if winner is None:
-            client.Put(Message(Content=dumps(world), Key=Key(Type='world', Name='judge', Namespace='XO-namespace')))
+            client.put(Message(Content=dumps(world), Key=Key(Type='world', Name='judge', Namespace='XO-namespace')))
         else:
-            client.Put(Message(Content=winner, Key=Key(Type='result', Name='judge', Namespace='XO-namespace')))
+            client.put(Message(Content=winner, Key=Key(Type='result', Name='judge', Namespace='XO-namespace')))
