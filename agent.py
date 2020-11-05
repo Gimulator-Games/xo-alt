@@ -1,56 +1,46 @@
-from os import environ
-import logging
-from time import sleep
-import random
-import string
-from json import loads, dumps
-
 from python.proto_pb2 import *
 from python.proto_pb2_grpc import *
 
-from client import GimulatorClient
-
-LOGLEVEL = environ.get('LOGLEVEL', 'INFO').upper()
-logging.basicConfig(level=LOGLEVEL)
-logger = logging.getLogger('Gimulator Agent SDK')
+from json import loads, dumps
+from python.client import ActorClient
+from time import sleep
+import random
+import string
 
 agent_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
 
 
 class Agent:
     def react(self, world: dict) -> list:
-        # TODO do something with world and populate action
+        print("starting to react")
+        if world['turn'] != agent_name:
+            print("it's not my turn")
+            return []
+        
         for i, row in enumerate(world['world']):
             for j, cell in enumerate(row):
                 if cell is None:
                     return [i, j]
 
-        return []
-
 
 if __name__ == '__main__':
-    logger.info('Agent name is "%s"' % agent_name)
+    client = ActorClient()
+
     agent = Agent()
 
-    client = GimulatorClient()
-
-    logger.debug("Registering agent...")
-    client.Put(
-        Message(Content='agent-' + agent_name, Key=Key(Type='register', Name='agent-' + agent_name, Namespace='XO-namespace')))
+    client.ImReady()
 
     while True:
         sleep(1)
-        logger.debug("Requesting world...")
+
         try:
-            response = client.Get(Key(Type='world', Name='judge', Namespace='XO-namespace'))
+            response = client.Get(Key(Type="world", Name="referee", Namespace="xo-namespace"))
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.NOT_FOUND:
                 continue
             raise e
-        logger.debug("World received: " + response.Content)
 
-        logger.debug("Agent is reacting...")
-        action = dumps(agent.react(loads(response.Content)))
-        logger.debug("Action is ready: " + action)
-
-        client.Put(Message(Content=action, Key=Key(Type='action', Name='agent-' + agent_name, Namespace='XO-namespace')))
+        reaction = agent.react(loads(response.Content))
+        print("Reaction is ", reaction)
+        if len(reaction) != 0:
+            client.Put(Message(Key=Key(Type="action", Name=agent_name, Namespace="xo-namespace"), Content=dumps(reaction)))
