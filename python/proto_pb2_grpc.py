@@ -3,10 +3,10 @@
 import grpc
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-import python.proto_pb2 as proto__pb2
+import proto_pb2 as proto__pb2
 
 
-class APIStub(object):
+class MessageAPIStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -16,38 +16,38 @@ class APIStub(object):
             channel: A grpc.Channel.
         """
         self.Get = channel.unary_unary(
-                '/api.API/Get',
+                '/api.MessageAPI/Get',
                 request_serializer=proto__pb2.Key.SerializeToString,
                 response_deserializer=proto__pb2.Message.FromString,
                 )
         self.GetAll = channel.unary_stream(
-                '/api.API/GetAll',
+                '/api.MessageAPI/GetAll',
                 request_serializer=proto__pb2.Key.SerializeToString,
                 response_deserializer=proto__pb2.Message.FromString,
                 )
         self.Put = channel.unary_unary(
-                '/api.API/Put',
+                '/api.MessageAPI/Put',
                 request_serializer=proto__pb2.Message.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.Delete = channel.unary_unary(
-                '/api.API/Delete',
+                '/api.MessageAPI/Delete',
                 request_serializer=proto__pb2.Key.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.DeleteAll = channel.unary_unary(
-                '/api.API/DeleteAll',
+                '/api.MessageAPI/DeleteAll',
                 request_serializer=proto__pb2.Key.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
         self.Watch = channel.unary_stream(
-                '/api.API/Watch',
+                '/api.MessageAPI/Watch',
                 request_serializer=proto__pb2.Key.SerializeToString,
                 response_deserializer=proto__pb2.Message.FromString,
                 )
 
 
-class APIServicer(object):
+class MessageAPIServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Get(self, request, context):
@@ -87,7 +87,7 @@ class APIServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_APIServicer_to_server(servicer, server):
+def add_MessageAPIServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Get': grpc.unary_unary_rpc_method_handler(
                     servicer.Get,
@@ -121,12 +121,12 @@ def add_APIServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'api.API', rpc_method_handlers)
+            'api.MessageAPI', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class API(object):
+class MessageAPI(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -140,7 +140,7 @@ class API(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.API/Get',
+        return grpc.experimental.unary_unary(request, target, '/api.MessageAPI/Get',
             proto__pb2.Key.SerializeToString,
             proto__pb2.Message.FromString,
             options, channel_credentials,
@@ -157,7 +157,7 @@ class API(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/api.API/GetAll',
+        return grpc.experimental.unary_stream(request, target, '/api.MessageAPI/GetAll',
             proto__pb2.Key.SerializeToString,
             proto__pb2.Message.FromString,
             options, channel_credentials,
@@ -174,7 +174,7 @@ class API(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.API/Put',
+        return grpc.experimental.unary_unary(request, target, '/api.MessageAPI/Put',
             proto__pb2.Message.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
@@ -191,7 +191,7 @@ class API(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.API/Delete',
+        return grpc.experimental.unary_unary(request, target, '/api.MessageAPI/Delete',
             proto__pb2.Key.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
@@ -208,7 +208,7 @@ class API(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/api.API/DeleteAll',
+        return grpc.experimental.unary_unary(request, target, '/api.MessageAPI/DeleteAll',
             proto__pb2.Key.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
@@ -225,8 +225,224 @@ class API(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/api.API/Watch',
+        return grpc.experimental.unary_stream(request, target, '/api.MessageAPI/Watch',
             proto__pb2.Key.SerializeToString,
             proto__pb2.Message.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class DirectorAPIStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.GetActors = channel.unary_stream(
+                '/api.DirectorAPI/GetActors',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=proto__pb2.User.FromString,
+                )
+        self.PutResult = channel.unary_unary(
+                '/api.DirectorAPI/PutResult',
+                request_serializer=proto__pb2.Result.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+
+
+class DirectorAPIServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def GetActors(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def PutResult(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_DirectorAPIServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'GetActors': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetActors,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=proto__pb2.User.SerializeToString,
+            ),
+            'PutResult': grpc.unary_unary_rpc_method_handler(
+                    servicer.PutResult,
+                    request_deserializer=proto__pb2.Result.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'api.DirectorAPI', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class DirectorAPI(object):
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def GetActors(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/api.DirectorAPI/GetActors',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            proto__pb2.User.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def PutResult(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/api.DirectorAPI/PutResult',
+            proto__pb2.Result.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class OperatorAPIStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.SetUserStatus = channel.unary_unary(
+                '/api.OperatorAPI/SetUserStatus',
+                request_serializer=proto__pb2.Report.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+
+
+class OperatorAPIServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def SetUserStatus(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_OperatorAPIServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'SetUserStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetUserStatus,
+                    request_deserializer=proto__pb2.Report.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'api.OperatorAPI', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class OperatorAPI(object):
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def SetUserStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/api.OperatorAPI/SetUserStatus',
+            proto__pb2.Report.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class UserAPIStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.ImReady = channel.unary_unary(
+                '/api.UserAPI/ImReady',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+
+
+class UserAPIServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def ImReady(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_UserAPIServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'ImReady': grpc.unary_unary_rpc_method_handler(
+                    servicer.ImReady,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'api.UserAPI', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class UserAPI(object):
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def ImReady(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/api.UserAPI/ImReady',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
