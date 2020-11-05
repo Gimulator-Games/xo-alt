@@ -1,37 +1,38 @@
 director:
 - key:
-    type: "world"
-    name: "judge"
-    namespace: "XO-namespace"
+    type: register
+    namespace: xo-namespace
   methods:
-  - get
-  - put
+  - get-all
+- key:
+    type: action
+    namespace: xo-namespace
+  methods:
   - watch
 - key:
-    type: "action"
+    type: world
+    name: referee
+    namespace: xo-namespace
   methods:
-    - watch
-- key:
-    type: "register"
-    namespace: "XO-namespace"
-  methods:
-    - get-all
+  - put
+  - get
+
 
 actors:
   agent:
   - key:
-      type: "action"
-      namespace: "XO-namespace"
+      type: register
+      namespace: xo-namespace
     methods:
-      - put
+    - put
   - key:
-      type: "register"
-      namespace: "XO-namespace"
+      type: world
+      name: referee
+      namespace: xo-namespace
     methods:
-      - put
+    - get
   - key:
-      type: "world"
-      name: "judge"
-      namespace: "XO-namespace"
+      type: action
+      namespace: xo-namespace
     methods:
-      - get
+    - put
