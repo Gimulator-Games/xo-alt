@@ -3,6 +3,7 @@ import logging
 
 from python.proto_pb2_grpc import *
 from python.proto_pb2 import *
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 logger = logging.getLogger('Gimulator Client')
 
@@ -49,7 +50,8 @@ class DirectorClient(GimulatorClient):
         self.director_api = DirectorAPIStub(self.channel)
 
     def GetActors(self):
-        return self.director_api.GetActors(metadata=self.metadata)
+        empty = google_dot_protobuf_dot_empty__pb2.Empty()
+        return self.director_api.GetActors(empty, metadata=self.metadata)
 
     def PutResult(self, result: Result):
         return self.director_api.PutResult(result, metadata=self.metadata)
@@ -74,4 +76,5 @@ class ActorClient(GimulatorClient):
         self.actor_api = UserAPIStub(self.channel)
 
     def ImReady(self):
-        return self.actor_api.ImReady(metadata=self.metadata)
+        empty = google_dot_protobuf_dot_empty__pb2.Empty()
+        return self.actor_api.ImReady(empty, metadata=self.metadata)

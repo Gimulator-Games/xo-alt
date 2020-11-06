@@ -1,38 +1,28 @@
 director:
 - key:
-    type: register
-    namespace: xo-namespace
-  methods:
-  - get-all
-- key:
     type: action
     namespace: xo-namespace
   methods:
-  - watch
+  - 6
 - key:
     type: world
     name: referee
     namespace: xo-namespace
   methods:
-  - put
-  - get
+  - 3
+  - 1
 
 
 actors:
   agent:
   - key:
-      type: register
-      namespace: xo-namespace
-    methods:
-    - put
-  - key:
       type: world
       name: referee
       namespace: xo-namespace
     methods:
-    - get
+    - 1
   - key:
       type: action
       namespace: xo-namespace
     methods:
-    - put
+    - 3

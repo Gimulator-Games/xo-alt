@@ -1,14 +1,14 @@
 from python.proto_pb2 import *
 from python.proto_pb2_grpc import *
 
+from os import environ
 from json import loads, dumps
 from python.client import ActorClient
 from time import sleep
 import random
 import string
 
-agent_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
-
+agent_name = ""
 
 class Agent:
     def react(self, world: dict) -> list:
@@ -26,21 +26,25 @@ class Agent:
 if __name__ == '__main__':
     client = ActorClient()
 
+    agent_name = environ["GIMULATOR_NAME"]
+
     agent = Agent()
 
     client.ImReady()
 
     while True:
-        sleep(1)
+        sleep(2)
 
         try:
-            response = client.Get(Key(Type="world", Name="referee", Namespace="xo-namespace"))
+            response = client.Get(Key(type="world", name="referee", namespace="xo-namespace"))
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.NOT_FOUND:
+                print("world not found")
                 continue
             raise e
 
-        reaction = agent.react(loads(response.Content))
+        world = loads(response.content)
+        reaction = agent.react(world)
         print("Reaction is ", reaction)
         if len(reaction) != 0:
-            client.Put(Message(Key=Key(Type="action", Name=agent_name, Namespace="xo-namespace"), Content=dumps(reaction)))
+            client.Put(Message(key=Key(type="action", name=agent_name, namespace="xo-namespace"), content=dumps(reaction)))

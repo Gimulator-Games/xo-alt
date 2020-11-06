@@ -56,34 +56,58 @@ if __name__ == "__main__":
     client = DirectorClient()
 
     while True:
-        users = list(client.GetActors())
-        if len(users) == 2:
-            for agent in users:
-                agents.append(agent.Name)
-            break
         sleep(2)
 
+        print("starting to get users")
+
+        users = list(client.GetActors())
+        if len(users) != 2:
+            continue
+
+        flag = False
+        for agent in users:
+            if not agent.readiness:
+                flag = True
+        if flag:
+            continue
+
+        for agent in users:
+            agents.append(agent.name)
+        break
+
+    print("starting to initiate world")
     world = {
         'world': [[None] * 3] * 3,
         'turn': agents[0],
     }
+    print("world =", world)
     client.Put(Message(
-        Key=Key(Type="world", Name="referee", Namespace="xo-namespace"),
-        Content=dumps(world),
+        key=Key(type="world", name="referee", namespace="xo-namespace"),
+        content=dumps(world),
     ))
 
-    for action in client.Watch(Key(Type="action", Namespace="xo-namespace")):
-        world = loads(client.Get(Key(Type="world", Name="referee", Namespace="xo-namespace")).Content)
+    for action in client.Watch(Key(type="action", namespace="xo-namespace")):
+        world = loads(client.Get(Key(type="world", name="referee", namespace="xo-namespace")).content)
 
+        print("starting to generate new world")
         try:
-            newWorld = evolve(world, action.Key.Name, loads(action.Content))
+            newWorld = evolve(world, action.key.name, loads(action.content))
         except ValueError:
             continue
 
+        print("new world =", newWorld)
         winner = check_game_status(newWorld)
+        result = Result()
+        result.status = Result.success
         if winner is None:
-            client.Put(Message(Key=Key(Type="world", Name="referee", Namespace="xo-namespace"), Content=dumps(newWorld)))
-        else:
-            client.PutResult(Result(Status=Status, Score=Score()))
-            print("result: ", winner)
-            exit(0)
+            client.Put(Message(key=Key(type="world", name="referee", namespace="xo-namespace"), content=dumps(newWorld)))
+            continue
+        elif winner == 'draw':
+            result.scores = [Result.Score(name=agent[0],score=1),Result.Score(name=agent[1],score=1)]
+        elif winner == agents[0]:
+            result.scores = [Result.Score(name=agent[0],score=3),Result.Score(name=agent[1],score=0)]
+        elif winner == agents[1]:
+            result.scores = [Result.Score(name=agent[0],score=0),Result.Score(name=agent[1],score=3)]
+
+        client.PutResult(result)
+        exit(0)
