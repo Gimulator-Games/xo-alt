@@ -3,14 +3,14 @@ director:
     type: action
     namespace: xo-namespace
   methods:
-  - 6
+  - watch
 - key:
     type: world
     name: referee
     namespace: xo-namespace
   methods:
-  - 3
-  - 1
+  - put
+  - get
 
 
 actors:
@@ -20,9 +20,12 @@ actors:
       name: referee
       namespace: xo-namespace
     methods:
-    - 1
+    - get
   - key:
       type: action
       namespace: xo-namespace
     methods:
-    - 3
+    - put
+
+
+

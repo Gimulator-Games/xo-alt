@@ -1,0 +1,7 @@
+dataPVCName: ""
+gimulatorImage: "xerac/gimulator:staging"
+outputVolumeSize: "100M" # or "500M"
+resourceCPULimit: "200m" # or "500m"
+resourceMemoryLimit: "200M" # or "500M"
+resourceEphemeralLimit: "100M" # or "500M"
+storageClass: "openebs-hostpath"

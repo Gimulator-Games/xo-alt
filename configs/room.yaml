@@ -1,0 +1,18 @@
+apiVersion: hub.roboepics.com/v1
+kind: Room
+metadata:
+  name: "xo-challenge-1"
+  namespace: "hub-system"
+spec:
+  id: "3434-1"
+  problemID: "3434"
+  director:
+    name: "123"
+    image: "registry.roboepics.com/roboepics/competitions/games/xo-alt-judge:latest"
+  actors:
+  - name: "456"
+    image: "registry.roboepics.com/roboepics/competitions/games/xo-alt-agent:latest"
+    role: "agent"
+  - name: "789"
+    image: "registry.roboepics.com/roboepics/competitions/games/xo-alt-agent:latest"
+    role: "agent"
