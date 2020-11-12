@@ -103,11 +103,11 @@ if __name__ == "__main__":
             client.Put(Message(key=Key(type="world", name="referee", namespace="xo-namespace"), content=dumps(newWorld)))
             continue
         elif winner == 'draw':
-            result.scores = [Result.Score(name=agent[0],score=1),Result.Score(name=agent[1],score=1)]
+            result.scores = [Result.Score(name=agents[0], score=1), Result.Score(name=agents[1], score=1)]
         elif winner == agents[0]:
-            result.scores = [Result.Score(name=agent[0],score=3),Result.Score(name=agent[1],score=0)]
+            result.scores = [Result.Score(name=agents[0], score=3), Result.Score(name=agents[1], score=0)]
         elif winner == agents[1]:
-            result.scores = [Result.Score(name=agent[0],score=0),Result.Score(name=agent[1],score=3)]
+            result.scores = [Result.Score(name=agents[0], score=0), Result.Score(name=agents[1], score=3)]
 
         client.PutResult(result)
         exit(0)
