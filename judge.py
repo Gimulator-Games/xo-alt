@@ -95,7 +95,7 @@ if __name__ == "__main__":
         except ValueError:
             continue
 
-        print("new world =", newWorld)
+        print("new world = ", newWorld)
         winner = check_game_status(newWorld)
         result = Result()
         result.status = Result.success
@@ -110,4 +110,4 @@ if __name__ == "__main__":
             result.scores = [Result.Score(name=agents[0], score=0), Result.Score(name=agents[1], score=3)]
 
         client.PutResult(result)
-        exit(0)
+        break
