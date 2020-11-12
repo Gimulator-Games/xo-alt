@@ -95,7 +95,7 @@ if __name__ == "__main__":
         except ValueError:
             continue
 
-        print("new world = ", newWorld)
+        print("new world =", newWorld)
         winner = check_game_status(newWorld)
         result = Result()
         result.status = Result.success
